@@ -17,6 +17,9 @@ contract ZombieFactory {
     //声明一个动态(元素可拓展),公开(可从合约外部访问)的Zombie类型的数组
     Zombie[] public zombies;
 
+    mapping(uint256 => address) public zombieToOwner;
+    mapping(address => uint256) ownerZombieCount;
+
     //定义一个私有(private)方法
     function _createZombie(string memory _name, uint256 _dna) private {
         /* fire an event to let the app know the function was called.
@@ -24,6 +27,12 @@ contract ZombieFactory {
         It no longer returns the length but a reference to the added element. */
         zombies.push(Zombie(_name, _dna));
         uint256 id = zombies.length - 1;
+        /*  msg.sender -- a certain global variable that is available to all functions 
+         which refers to the address of the person (or smart contract) 
+         who called the current function.
+         The syntax for storing data in a mapping is just like with arrays*/
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
         emit NewZombie(id, _name, _dna);
     }
 
