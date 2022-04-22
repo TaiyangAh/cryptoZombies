@@ -20,8 +20,7 @@ contract ZombieFactory {
     mapping(uint256 => address) public zombieToOwner;
     mapping(address => uint256) ownerZombieCount;
 
-    //定义一个私有(private)方法
-    function _createZombie(string memory _name, uint256 _dna) private {
+    function _createZombie(string memory _name, uint256 _dna) internal {
         /* fire an event to let the app know the function was called.
         Operation push has changed behavior since since solidity 0.6 --
         It no longer returns the length but a reference to the added element. */
@@ -49,6 +48,7 @@ contract ZombieFactory {
     }
 
     function createRandomZombie(string memory _name) public {
+        //use require to make sure this function only gets executed one time per user
         require(ownerZombieCount[msg.sender] == 0);
         uint256 randDna = _generateRandomDna(_name);
         _createZombie(_name, randDna);
