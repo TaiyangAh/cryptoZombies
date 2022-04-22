@@ -3,6 +3,26 @@ pragma solidity >=0.8.13 <0.9.0;
 
 import "./ZombieFactory.sol";
 
+//定义访问外部合约的接口
+abstract contract KittyInterface {
+    function getKitty(uint256 _id)
+        external
+        view
+        virtual
+        returns (
+            bool isGestating,
+            bool isReady,
+            uint256 cooldownIndex,
+            uint256 nextActionAt,
+            uint256 siringWithId,
+            uint256 birthTime,
+            uint256 matronId,
+            uint256 sireId,
+            uint256 generation,
+            uint256 genes
+        );
+}
+
 contract ZombieFeeding is ZombieFactory {
     function feedAndMultiply(uint256 _zombieId, uint256 _targetDna) public {
         /* Add a require statement to verify that msg.sender 
