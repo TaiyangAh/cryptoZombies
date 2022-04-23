@@ -11,3 +11,7 @@ external is similar to public, except that these functions can ONLY be called ou
 3.solidity 编程语言与众不同的特征:
 (1).**永固性[Immutability]** -- after you deploy a contract to Ethereum, it’s immutable, which means that it can never be modified or updated again
 (2).**gas** 机制 -- In Solidity, your users have to pay every time they execute a function on your DApp using a currency called gas. Users buy gas with Ether (the currency on Ethereum), so your users have to spend ETH in order to execute functions on your DApp.
+
+4.gas optimization
+(1)**view** functions don't cost any gas when they're called **externally** by a user,you can optimize your DApp's gas usage for your users by using read-only **external view functions** wherever possible
+(2)One of the more expensive operations in Solidity is using **storage** — particularly **writes**.In order to keep costs down, you want to avoid writing data to storage except when absolutely necessary
