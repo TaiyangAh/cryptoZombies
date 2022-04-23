@@ -27,19 +27,33 @@ contract ZombieFeeding is ZombieFactory {
     //声明变量
     KittyInterface kittyContract;
 
-    function setKittyContractAddress(address _address) external {
+    /* 由于继承,得以调用Ownable合约的onlyOwner修饰符,
+    使得唯有合约的主人（也就是部署者）才能调用它 */
+    function setKittyContractAddress(address _address) external onlyOwner {
         kittyContract = KittyInterface(_address);
+    }
+
+    // 1. Define `_triggerCooldown` function here
+    function _triggerCooldown(Zombie storage _zombie) internal {
+        _zombie.readyTime = uint32(block.timestamp + cooldownTime);
+    }
+
+    // 2. Define `_isReady` function here
+    function _isReady(Zombie storage _zombie) internal view returns (bool) {
+        return (_zombie.readyTime <= block.timestamp);
     }
 
     function feedAndMultiply(
         uint256 _zombieId,
         uint256 _targetDna,
         string memory _species
-    ) public {
+    ) internal {
         /* Add a require statement to verify that msg.sender 
         is equal to this zombie's owner */
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
+        // 2. Add a check for `_isReady`
+        require(_isReady(myZombie));
         _targetDna = _targetDna % dnaModulus;
         uint256 newDna = (myZombie.dna + _targetDna) / 2;
         if (keccak256(abi.encodePacked(_species)) == keccak256("kitty")) {
@@ -47,6 +61,8 @@ contract ZombieFeeding is ZombieFactory {
         }
         //父合约方法须为internal而不是private修饰,才能被子合约调用到
         _createZombie("NoName", newDna);
+        // 3. Call `_triggerCooldown`
+        _triggerCooldown(myZombie);
     }
 
     function feedOnKitty(uint256 _zombieId, uint256 _kittyId) public {

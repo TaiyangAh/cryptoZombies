@@ -11,10 +11,19 @@ contract ZombieFactory is Ownable {
 
     uint256 dnaDigits = 16;
     uint256 dnaModulus = 10**dnaDigits;
-    //struct像js中的对象
+
+    uint256 cooldownTime = 1 days;
+
+    /* struct像js中的对象.
+    优化技巧--32 bits is more than enough 
+    to hold the zombie's level and timestamp, so this will 
+    save us some gas costs by packing the data more tightly 
+    than using a regular uint (256-bits). */
     struct Zombie {
         string name;
         uint256 dna;
+        uint32 level;
+        uint32 readyTime;
     }
     //声明一个动态(元素可拓展),公开(可从合约外部访问)的Zombie类型的数组
     Zombie[] public zombies;
@@ -26,7 +35,9 @@ contract ZombieFactory is Ownable {
         /* fire an event to let the app know the function was called.
         Operation push has changed behavior since since solidity 0.6 --
         It no longer returns the length but a reference to the added element. */
-        zombies.push(Zombie(_name, _dna));
+        zombies.push(
+            Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime))
+        );
         uint256 id = zombies.length - 1;
         /*  msg.sender -- a certain global variable that is available to all functions 
          which refers to the address of the person (or smart contract) 
