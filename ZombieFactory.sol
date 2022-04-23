@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.13 <0.9.0;
 
+import "./Ownable.sol";
+
 /*  random Zombie generator */
 
-contract ZombieFactory {
+contract ZombieFactory is Ownable {
     //声明事件
     event NewZombie(uint256 zombieId, string name, uint256 dna);
 

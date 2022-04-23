@@ -24,9 +24,12 @@ abstract contract KittyInterface {
 }
 
 contract ZombieFeeding is ZombieFactory {
-    //生成接口Interface实例
-    address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-    KittyInterface kittyContract = KittyInterface(ckAddress);
+    //声明变量
+    KittyInterface kittyContract;
+
+    function setKittyContractAddress(address _address) external {
+        kittyContract = KittyInterface(_address);
+    }
 
     function feedAndMultiply(
         uint256 _zombieId,
