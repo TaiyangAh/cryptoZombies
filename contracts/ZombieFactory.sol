@@ -24,6 +24,8 @@ contract ZombieFactory is Ownable {
         uint256 dna;
         uint32 level;
         uint32 readyTime;
+        uint16 winCount;
+        uint16 lossCount;
     }
     //声明一个动态(元素可拓展),公开(可从合约外部访问)的Zombie类型的数组
     Zombie[] public zombies;
@@ -36,7 +38,7 @@ contract ZombieFactory is Ownable {
         Operation push has changed behavior since since solidity 0.6 --
         It no longer returns the length but a reference to the added element. */
         zombies.push(
-            Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime))
+            Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime), 0, 0)
         );
         uint256 id = zombies.length - 1;
         /*  msg.sender -- a certain global variable that is available to all functions 
