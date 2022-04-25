@@ -11,7 +11,21 @@ external is similar to public, except that these functions can ONLY be called ou
 3.solidity 编程语言与众不同的特征:
 (1).**永固性[Immutability]** -- after you deploy a contract to Ethereum, it’s immutable, which means that it can never be modified or updated again
 (2).**gas** 机制 -- In Solidity, your users have to pay every time they execute a function on your DApp using a currency called gas. Users buy gas with Ether (the currency on Ethereum), so your users have to spend ETH in order to execute functions on your DApp.
+(3).**payable functions** -- a special type of function that can receive Ether
 
 4.gas optimization
 (1)**view** functions don't cost any gas when they're called **externally** by a user,you can optimize your DApp's gas usage for your users by using read-only **external view functions** wherever possible
 (2)One of the more expensive operations in Solidity is using **storage** — particularly **writes**.In order to keep costs down, you want to avoid writing data to storage except when absolutely necessary
+
+5.function modifiers
+(1).**visibility modifiers**：control when and where the function can be called from
+
+-- **private** means it's only callable from other functions inside the contract; **internal** is like private but can also be called by contracts that inherit from this one; **external** can only be called outside the contract; and finally **public** can be called anywhere, both internally and externally.
+
+(2).**state modifiers**：tell us how the function interacts with the BlockChain
+
+-- **view** tells us that by running the function, no data will be saved/changed. **pure** tells us that not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain. Both of these don't cost any gas to call if they're called externally from outside the contract (but they do cost gas if called internally by another function).
+
+(3).the **payable** modifier：payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether
+
+(4).**custom modifiers**：define custom logic affect a function
