@@ -27,6 +27,11 @@ contract ZombieFeeding is ZombieFactory {
     //声明变量
     KittyInterface kittyContract;
 
+    modifier ownerOf(uint256 _zombieId) {
+        require(msg.sender == zombieToOwner[_zombieId]);
+        _;
+    }
+
     /* 由于继承,得以调用Ownable合约的onlyOwner修饰符,
     使得唯有合约的主人（也就是部署者）才能调用它 */
     function setKittyContractAddress(address _address) external onlyOwner {
@@ -47,10 +52,10 @@ contract ZombieFeeding is ZombieFactory {
         uint256 _zombieId,
         uint256 _targetDna,
         string memory _species
-    ) internal {
+    ) internal ownerOf(_zombieId) {
         /* Add a require statement to verify that msg.sender 
         is equal to this zombie's owner */
-        require(msg.sender == zombieToOwner[_zombieId]);
+        // require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
         // 2. Add a check for `_isReady`
         require(_isReady(myZombie));
