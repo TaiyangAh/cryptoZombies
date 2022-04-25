@@ -13,6 +13,18 @@ contract ZombieHelper is ZombieFeeding {
         _;
     }
 
+    //  Create withdraw function here
+    function withdraw() external onlyOwner {
+        /* Casting from address to address payable */
+        address payable _owner = payable(address(uint160(owner())));
+        _owner.transfer(address(this).balance);
+    }
+
+    // Create setLevelUpFee function here
+    function setLevelUpFee(uint256 _fee) external onlyOwner {
+        levelUpFee = _fee;
+    }
+
     function levelUp(uint256 _zombieId) external payable {
         require(msg.value == levelUpFee);
         zombies[_zombieId].level++;

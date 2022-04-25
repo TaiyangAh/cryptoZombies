@@ -29,3 +29,6 @@ external is similar to public, except that these functions can ONLY be called ou
 (3).the **payable** modifier：payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether
 
 (4).**custom modifiers**：define custom logic affect a function
+
+6.address and address payable：see the [differences between 'address' and 'address payable'](https://ethereum.stackexchange.com/questions/64108/whats-the-difference-between-address-and-address-payable/64109#64109)
+
