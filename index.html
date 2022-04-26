@@ -20,6 +20,7 @@
   <body>
     <script>
       let cryptoZombies;
+      let userAccount;
 
       function startApp() {
         const cryptoZombiesAddress = "Contract Address";
@@ -28,6 +29,27 @@
           cryptoZombiesAddress
         );
       }
+
+      function getZombieDetails(id) {
+        return cryptoZombies.methods.zombies(id).call();
+      }
+
+      function zombieToOwner(id) {
+        return cryptoZombies.methods.zombieToOwner(id).call();
+      }
+
+      function getZombiesByOwner(owner) {
+        return cryptoZombies.methods.getZombiesByOwner(owner).call();
+      }
+
+      const accountInterval = setInterval(function () {
+        // Check if account has changed
+        if (web3.eth.accounts[0] !== userAccount) {
+          userAccount = web3.eth.accounts[0];
+          // Call some function to update the UI with the new account
+          getZombiesByOwner(userAccount).then(displayZombies);
+        }
+      }, 100);
 
       window.addEventListener("load", function () {
         // Checking if Web3 has been injected by the browser (Mist/MetaMask)

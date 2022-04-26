@@ -24,7 +24,7 @@ external is similar to public, except that these functions can ONLY be called ou
 
 (2).**state modifiers**：tell us how the function interacts with the BlockChain
 
--- **view** tells us that by running the function, no data will be saved/changed. **pure** tells us that not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain. Both of these don't cost any gas to call if they're called externally from outside the contract (but they do cost gas if called internally by another function).
+-- **view** tells us that by running the function, no data will be saved/changed. **pure** tells us that not only does the function not save any data to the blockchain, but it also doesn't read any data from the blockchain. _Both of these are read-only and don't change state on the blockchain. They also don't cost any gas if they're called externally from outside the contract_ (but they do cost gas if called internally by another function).
 
 (3).the **payable** modifier：payable functions are part of what makes Solidity and Ethereum so cool — they are a special type of function that can receive Ether
 
