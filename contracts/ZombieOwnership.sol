@@ -3,8 +3,14 @@ pragma solidity >=0.8.13 <0.9.0;
 
 import "./ZombieAttack.sol";
 import "./ERC721.sol";
+import "./safeMath.sol";
 
 contract ZombieOwnership is ZombieAttack, ERC721 {
+    /* 不能认为在ZombieFactory中使用过就可以继承而直接使用,
+    safeMath lib需要重新引入与声明, */
+    //declare using safemath
+    using SafeMath for uint256;
+
     mapping(uint256 => address) zombieApprovals;
 
     function balanceOf(address _owner)
@@ -32,8 +38,8 @@ contract ZombieOwnership is ZombieAttack, ERC721 {
         address _to,
         uint256 _tokenId
     ) private {
-        ownerZombieCount[_to]++;
-        ownerZombieCount[_from]--;
+        ownerZombieCount[_to] = ownerZombieCount[_to].add(1);
+        ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].sub(1);
         zombieToOwner[_tokenId] = _to;
         emit Transfer(_from, _to, _tokenId);
     }

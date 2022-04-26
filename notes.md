@@ -32,3 +32,4 @@ external is similar to public, except that these functions can ONLY be called ou
 
 6.address and address payable：see the [differences between 'address' and 'address payable'](https://ethereum.stackexchange.com/questions/64108/whats-the-difference-between-address-and-address-payable/64109#64109)
 
+7.第三方**lib**的用法,不同于第三方 contract,没有继承机制

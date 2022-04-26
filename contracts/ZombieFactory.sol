@@ -2,10 +2,15 @@
 pragma solidity >=0.8.13 <0.9.0;
 
 import "./Ownable.sol";
+import "./safeMath.sol";
 
 /*  random Zombie generator */
 
 contract ZombieFactory is Ownable {
+    //  Declare using safemath
+    using SafeMath for uint256;
+    using SafeMath32 for uint32;
+    using SafeMath16 for uint16;
     //声明事件
     event NewZombie(uint256 zombieId, string name, uint256 dna);
 
@@ -46,7 +51,7 @@ contract ZombieFactory is Ownable {
          who called the current function.
          The syntax for storing data in a mapping is just like with arrays*/
         zombieToOwner[id] = msg.sender;
-        ownerZombieCount[msg.sender]++;
+        ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);
         emit NewZombie(id, _name, _dna);
     }
 
